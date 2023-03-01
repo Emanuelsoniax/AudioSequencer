@@ -6,6 +6,10 @@ public class Sequencer : MonoBehaviour
 {
     public Node[] nodes;
     private NoteSequence sequence = new NoteSequence();
+    [SerializeField]
+    private AudioSource source;
+    [SerializeField]
+    private float interval;
 
     private void Update()
     {
@@ -17,15 +21,17 @@ public class Sequencer : MonoBehaviour
     // Update is called once per frame
     void UpdateSequence()
     {
-        sequence.notes = new List<Note>();
+        sequence.notes.Clear();
         foreach(Node _node in nodes)
         {
             sequence.notes.Add(_node.note);
+            Debug.Log("added:" + _node.note.name);
         }
     }
 
     public void Play()
     {
+        UpdateSequence();
         StartCoroutine(PlayTheSequence(sequence));
     }
 
@@ -34,9 +40,10 @@ public class Sequencer : MonoBehaviour
         for (int i = 0; i < sequence.notes.Count; i++)
         {
             var note = sequence.notes[i];
-            nodes[i].PlayClip();
+            source.PlayOneShot(note.CreateClip(note.name, note.sampleRate, note.frequency));
             yield return new WaitForSeconds(note.duration);
-            nodes[i].audioSource.Stop();
+            source.Stop();
+            yield return new WaitForSecondsRealtime(interval);
         }
     }
 
