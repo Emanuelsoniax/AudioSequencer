@@ -17,6 +17,7 @@ public class Node : MonoBehaviour
         audioSource.spatialBlend = 0; //force 2D sound
         audioSource.Stop(); //avoids audiosource from starting to play automatically
         SetSprites();
+        note.SetValues();
     }
 
     public void ClickButton()
@@ -43,28 +44,11 @@ public class Node : MonoBehaviour
 
     public IEnumerator PlayClip()
     {
-        audioSource.PlayOneShot(CreateClip(note.name, note.sampleRate, note.frequency));
+        audioSource.PlayOneShot(note.CreateClip(note.name, note.sampleRate, note.frequency));
         yield return new WaitForSeconds(note.duration);
         audioSource.Stop();
     }
 
-    private AudioClip CreateClip(string _name, int _samplerate, float _frequency)
-    {
-        AudioClip clip = AudioClip.Create(_name, _samplerate, 1, _samplerate, false);
-
-        var size = clip.frequency * (int)Mathf.Ceil(clip.length);
-        float[] data = new float[size];
-
-        int count = 0;
-        while (count < data.Length)
-        {
-            data[count] = Mathf.Sin(2 * Mathf.PI * _frequency * count / _samplerate);
-            count++;
-        }
-
-        clip.SetData(data, 0);
-        return clip;
-    }
 }
 
 public enum NoteType { none = 0, A = 1, B = 2, C = 3, D = 4, E = 5, F = 6, G = 7 }
@@ -76,20 +60,10 @@ public class Note
     public int sampleRate;
     public float frequency;
     public float duration;
-
     public NoteType note;
 
-    public void ChangeNote()
+    public void SetValues()
     {
-        if (note == NoteType.G)
-        {
-            note = 0;
-        }
-        else
-        {
-            note = (note + 1);
-        }
-
         switch (note)
         {
             case NoteType.none:
@@ -127,4 +101,35 @@ public class Note
         }
     }
 
+    public void ChangeNote()
+    {
+        if (note == NoteType.G)
+        {
+            note = 0;
+        }
+        else
+        {
+            note = (note + 1);
+        }
+
+        SetValues();
+    }
+
+    public AudioClip CreateClip(string _name, int _samplerate, float _frequency)
+    {
+        AudioClip clip = AudioClip.Create(_name, _samplerate, 1, _samplerate, false);
+
+        var size = clip.frequency * (int)Mathf.Ceil(clip.length);
+        float[] data = new float[size];
+
+        int count = 0;
+        while (count < data.Length)
+        {
+            data[count] = Mathf.Sin(2 * Mathf.PI * _frequency * count / _samplerate);
+            count++;
+        }
+
+        clip.SetData(data, 0);
+        return clip;
+    }
 }
