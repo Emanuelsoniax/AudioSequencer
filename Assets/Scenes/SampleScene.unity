@@ -6464,7 +6464,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1301762223}
   - component: {fileID: 1301762225}
-  - component: {fileID: 1301762222}
   - component: {fileID: 1301762224}
   m_Layer: 0
   m_Name: Sequencer
@@ -6473,97 +6472,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1301762222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1301762221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f57e20e566b03e47a9ed9929b16ba29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sequences:
-  - nodes:
-    - {fileID: 1142802564}
-    - {fileID: 2025798723}
-    - {fileID: 589828497}
-    - {fileID: 2049643020}
-    - {fileID: 1273107920}
-    - {fileID: 241890824}
-    - {fileID: 1685150673}
-    - {fileID: 1612631589}
-    - {fileID: 1666996376}
-    - {fileID: 653211424}
-    - {fileID: 1656024892}
-    - {fileID: 1706158105}
-    - {fileID: 696083498}
-    - {fileID: 1464473876}
-    - {fileID: 176734491}
-    - {fileID: 819538924}
-    notes: []
-    sequenceInstrument: 0
-  - nodes:
-    - {fileID: 1790070002}
-    - {fileID: 456303741}
-    - {fileID: 1779714380}
-    - {fileID: 521015368}
-    - {fileID: 1130779374}
-    - {fileID: 1047128015}
-    - {fileID: 1489347909}
-    - {fileID: 1967472189}
-    - {fileID: 1626583091}
-    - {fileID: 1452678022}
-    - {fileID: 2062215421}
-    - {fileID: 1114306878}
-    - {fileID: 780339732}
-    - {fileID: 188017805}
-    - {fileID: 921815346}
-    - {fileID: 39701254}
-    notes: []
-    sequenceInstrument: 1
-  - nodes:
-    - {fileID: 396708789}
-    - {fileID: 1787548286}
-    - {fileID: 1428161241}
-    - {fileID: 1537437468}
-    - {fileID: 346894292}
-    - {fileID: 145155676}
-    - {fileID: 844602193}
-    - {fileID: 274457443}
-    - {fileID: 1386858456}
-    - {fileID: 2131273846}
-    - {fileID: 1196207202}
-    - {fileID: 1396850267}
-    - {fileID: 1705575620}
-    - {fileID: 1379751994}
-    - {fileID: 2018347750}
-    - {fileID: 876630968}
-    notes: []
-    sequenceInstrument: 2
-  - nodes:
-    - {fileID: 685791071}
-    - {fileID: 1353948741}
-    - {fileID: 512332353}
-    - {fileID: 133770178}
-    - {fileID: 1047058553}
-    - {fileID: 1018055515}
-    - {fileID: 1550364739}
-    - {fileID: 1774849101}
-    - {fileID: 486799612}
-    - {fileID: 2052284072}
-    - {fileID: 845213422}
-    - {fileID: 196076122}
-    - {fileID: 1539804693}
-    - {fileID: 1616184800}
-    - {fileID: 1714154423}
-    - {fileID: 1783062515}
-    notes: []
-    sequenceInstrument: 3
-  source: {fileID: 1301762224}
-  interval: 0.5
 --- !u!4 &1301762223
 Transform:
   m_ObjectHideFlags: 0
@@ -6687,7 +6595,86 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c75cda694b3e5498fa1538e73e348f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequencer: {fileID: 1301762222}
+  sequencer:
+    sequences:
+    - nodes:
+      - {fileID: 1142802564}
+      - {fileID: 2025798723}
+      - {fileID: 589828497}
+      - {fileID: 2049643020}
+      - {fileID: 1273107920}
+      - {fileID: 241890824}
+      - {fileID: 1685150673}
+      - {fileID: 1612631589}
+      - {fileID: 1666996376}
+      - {fileID: 653211424}
+      - {fileID: 1656024892}
+      - {fileID: 1706158105}
+      - {fileID: 696083498}
+      - {fileID: 1464473876}
+      - {fileID: 176734491}
+      - {fileID: 819538924}
+      notes: []
+      sequenceInstrument: 0
+    - nodes:
+      - {fileID: 1790070002}
+      - {fileID: 456303741}
+      - {fileID: 1779714380}
+      - {fileID: 521015368}
+      - {fileID: 1130779374}
+      - {fileID: 1047128015}
+      - {fileID: 1489347909}
+      - {fileID: 1967472189}
+      - {fileID: 1626583091}
+      - {fileID: 1452678022}
+      - {fileID: 2062215421}
+      - {fileID: 1114306878}
+      - {fileID: 780339732}
+      - {fileID: 188017805}
+      - {fileID: 921815346}
+      - {fileID: 39701254}
+      notes: []
+      sequenceInstrument: 1
+    - nodes:
+      - {fileID: 396708789}
+      - {fileID: 1787548286}
+      - {fileID: 1428161241}
+      - {fileID: 1537437468}
+      - {fileID: 346894292}
+      - {fileID: 145155676}
+      - {fileID: 844602193}
+      - {fileID: 274457443}
+      - {fileID: 1386858456}
+      - {fileID: 2131273846}
+      - {fileID: 1196207202}
+      - {fileID: 1396850267}
+      - {fileID: 1705575620}
+      - {fileID: 1379751994}
+      - {fileID: 2018347750}
+      - {fileID: 876630968}
+      notes: []
+      sequenceInstrument: 2
+    - nodes:
+      - {fileID: 685791071}
+      - {fileID: 1353948741}
+      - {fileID: 512332353}
+      - {fileID: 133770178}
+      - {fileID: 1047058553}
+      - {fileID: 1018055515}
+      - {fileID: 1550364739}
+      - {fileID: 1774849101}
+      - {fileID: 486799612}
+      - {fileID: 2052284072}
+      - {fileID: 845213422}
+      - {fileID: 196076122}
+      - {fileID: 1539804693}
+      - {fileID: 1616184800}
+      - {fileID: 1714154423}
+      - {fileID: 1783062515}
+      notes: []
+      sequenceInstrument: 3
+    interval: 0
+  source: {fileID: 1301762224}
 --- !u!1 &1353948736
 GameObject:
   m_ObjectHideFlags: 0
@@ -9945,7 +9932,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1301762222}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Sequencer, Assembly-CSharp
         m_MethodName: Play
         m_Mode: 1

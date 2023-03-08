@@ -8,6 +8,13 @@ public class ApplicationManager : MonoBehaviour
 {
     [SerializeField]
     private Sequencer sequencer;
+    [SerializeField]
+    private AudioSource source;
+
+    public void Start()
+    {
+        sequencer.OnStart();
+    }
 
     public void Save()
     {
@@ -31,13 +38,12 @@ public class ApplicationManager : MonoBehaviour
         }
     }
 
-
     public void Play()
     {
         foreach (NoteSequence _noteSequence in sequencer.sequences)
         {
             _noteSequence.UpdateSequence();
-            StartCoroutine(sequencer.PlayTheSequence(_noteSequence));
+            StartCoroutine(sequencer.PlayTheSequence(_noteSequence, source));
         }
     }
 

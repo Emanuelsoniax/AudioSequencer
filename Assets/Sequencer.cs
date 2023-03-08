@@ -8,8 +8,6 @@ public class Sequencer
     [SerializeField]
     public NoteSequence[] sequences;
     [SerializeField]
-    private AudioSource source;
-    [SerializeField]
     private float interval;
 
     public void OnStart()
@@ -20,14 +18,14 @@ public class Sequencer
         }
     }
 
-    public IEnumerator PlayTheSequence(NoteSequence sequence)
+    public IEnumerator PlayTheSequence(NoteSequence _sequence, AudioSource _source)
     {
-        for (int i = 0; i < sequence.notes.Count; i++)
+        for (int i = 0; i < _sequence.notes.Count; i++)
         {
-            var note = sequence.notes[i];
-            source.PlayOneShot(note.CreateClip(note.name, note.sampleRate, note.frequency));
+            var note = _sequence.notes[i];
+            _source.PlayOneShot(note.CreateClip(note.name, note.sampleRate, note.frequency));
             yield return new WaitForSeconds(note.duration);
-            source.Stop();
+            _source.Stop();
             yield return new WaitForSecondsRealtime(interval);
         }
     }
@@ -44,8 +42,8 @@ public class NoteSequence
     [SerializeField]
     private SequenceNode[] nodes;
     [HideInInspector]
-    public List<Note> notes = new List<Note>();
-    public Instrument sequenceInstrument;
+    public List<NoteData> notes = new List<NoteData>();
+    public InstrumentType sequenceInstrument;
 
     public void UpdateSequence()
     {
