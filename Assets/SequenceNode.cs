@@ -51,9 +51,15 @@ public class SequenceNode : MonoBehaviour
         audioSource.Stop();
     }
 
+    public void ChangeInstrument(Instrument _instrument)
+    {
+        note.instrument = _instrument;
+    }
+
 }
 
 public enum NoteType { none = 0, A = 1, B = 2, C = 3, D = 4, E = 5, F = 6, G = 7 }
+public enum Instrument { Square, Sawtooth, Sine, Noise }
 
 [System.Serializable]
 public class Note
@@ -63,6 +69,7 @@ public class Note
     public float frequency;
     public float duration;
     public NoteType note;
+    public Instrument instrument;
 
     public void SetValues()
     {
@@ -117,12 +124,30 @@ public class Note
         SetValues();
     }
 
+
     public AudioClip CreateClip(string _name, int _samplerate, float _frequency)
     {
         AudioClip clip = AudioClip.Create(_name, _samplerate, 1, _samplerate, false);
 
         var size = clip.frequency * (int)Mathf.Ceil(clip.length);
-        float[] data = new float[size];
+
+        if(instrument == Instrument.Sawtooth) clip.SetData(CreateSawtooth(size, _samplerate, _frequency), 0);
+        if(instrument == Instrument.Square) clip.SetData(CreateSquare(size, _samplerate, _frequency), 0);
+        if(instrument == Instrument.Sine) clip.SetData(CreateSine(size, _samplerate, _frequency), 0);
+        if(instrument == Instrument.Noise) clip.SetData(CreateNoise(size, _samplerate, _frequency), 0);
+
+        return clip;
+    }
+
+    public float[] CreateSine(int _size, int _samplerate, float _frequency)
+    {
+        float[] data = new float[_size];
+
+        //if frequency is 0 return empty note
+        if (_frequency == 0)
+        {
+            return data;
+        }
 
         int count = 0;
         while (count < data.Length)
@@ -130,8 +155,64 @@ public class Note
             data[count] = Mathf.Sin(2 * Mathf.PI * _frequency * count / _samplerate);
             count++;
         }
+        return data;
+    }
 
-        clip.SetData(data, 0);
-        return clip;
+    public float[] CreateSquare(int _size, int _samplerate, float _frequency)
+    {
+        float[] data = new float[_size];
+
+        //if frequency is 0 return empty note
+        if (_frequency == 0)
+        {
+            return data;
+        }
+
+        for (int i = 0; i < _size; ++i)
+        {
+            float lam = (float)i / (float)_samplerate * _frequency %1f;
+            data[i] = lam > 0.5f ? 0.75f: -0.75f;
+        }
+
+        return data;
+    }
+
+    public float[] CreateSawtooth(int _size, int _samplerate, float _frequency)
+    {
+        float[] data = new float[_size];
+
+        //if frequency is 0 return empty note
+        if (_frequency == 0)
+        {
+            return data;
+        }
+
+        for (int i = 0; i < _size; ++i)
+        {
+            float lam = (float)i / (float)_samplerate * _frequency % 1f;
+            data[i] = (lam * 2.0f - 1.0f) * 0.75f;
+        }
+
+        return data;
+    }
+
+    public float[] CreateNoise(int _size, int _samplerate, float _frequency)
+    {
+        float[] data = new float[_size];
+
+        //if frequency is 0 return empty note
+        if (_frequency == 0)
+        {
+            return data;
+        }
+
+        for (int i = 0; i < _size; ++i)
+        {
+            float lam = (float)i / (float)50000 * _frequency % 1f;
+            data[i] = (lam < 0.5f) ?
+                    (lam * 4 - 1) * 0.75f :
+                    (3.0f + lam * -4) * 0.75f;
+        }
+        return data;
     }
 }
