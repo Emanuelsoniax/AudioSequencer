@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SequenceNode : MonoBehaviour
 {
-    public Note note;
+    public NoteData note;
     public AudioSource audioSource;
     [SerializeField]
     private NoteSprites sprites;
@@ -51,25 +51,25 @@ public class SequenceNode : MonoBehaviour
         audioSource.Stop();
     }
 
-    public void ChangeInstrument(Instrument _instrument)
+    public void ChangeInstrument(InstrumentType _instrument)
     {
         note.instrument = _instrument;
     }
-
+     
 }
 
 public enum NoteType { none = 0, A = 1, B = 2, C = 3, D = 4, E = 5, F = 6, G = 7 }
-public enum Instrument { Square, Sawtooth, Sine, Noise }
+public enum InstrumentType { Square, Sawtooth, Sine, Noise }
 
 [System.Serializable]
-public class Note
+public class NoteData
 {
     public string name;
     public int sampleRate;
     public float frequency;
     public float duration;
     public NoteType note;
-    public Instrument instrument;
+    public InstrumentType instrument;
 
     public void SetValues()
     {
@@ -131,10 +131,10 @@ public class Note
 
         var size = clip.frequency * (int)Mathf.Ceil(clip.length);
 
-        if(instrument == Instrument.Sawtooth) clip.SetData(CreateSawtooth(size, _samplerate, _frequency), 0);
-        if(instrument == Instrument.Square) clip.SetData(CreateSquare(size, _samplerate, _frequency), 0);
-        if(instrument == Instrument.Sine) clip.SetData(CreateSine(size, _samplerate, _frequency), 0);
-        if(instrument == Instrument.Noise) clip.SetData(CreateNoise(size, _samplerate, _frequency), 0);
+        if(instrument == InstrumentType.Sawtooth) clip.SetData(CreateSawtooth(size, _samplerate, _frequency), 0);
+        if(instrument == InstrumentType.Square) clip.SetData(CreateSquare(size, _samplerate, _frequency), 0);
+        if(instrument == InstrumentType.Sine) clip.SetData(CreateSine(size, _samplerate, _frequency), 0);
+        if(instrument == InstrumentType.Noise) clip.SetData(CreateNoise(size, _samplerate, _frequency), 0);
 
         return clip;
     }
