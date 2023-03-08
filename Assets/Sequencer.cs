@@ -4,35 +4,20 @@ using UnityEngine;
 
 public class Sequencer : MonoBehaviour
 {
-    public Node[] nodes;
-    private NoteSequence sequence = new NoteSequence();
+    [SerializeField]
+    private NoteSequence[] sequences;
     [SerializeField]
     private AudioSource source;
     [SerializeField]
     private float interval;
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space)){
-            UpdateSequence();
-        }
-    }
-
-    // Update is called once per frame
-    void UpdateSequence()
-    {
-        sequence.notes.Clear();
-        foreach(Node _node in nodes)
-        {
-            sequence.notes.Add(_node.note);
-            Debug.Log("added:" + _node.note.name);
-        }
-    }
-
     public void Play()
     {
-        UpdateSequence();
-        StartCoroutine(PlayTheSequence(sequence));
+        foreach (NoteSequence _noteSequence in sequences)
+        {
+            _noteSequence.UpdateSequence();
+            StartCoroutine(PlayTheSequence(_noteSequence));
+        }
     }
 
     public IEnumerator PlayTheSequence(NoteSequence sequence)
@@ -49,7 +34,21 @@ public class Sequencer : MonoBehaviour
 
 }
 
+[System.Serializable]
 public class NoteSequence
 {
+    [SerializeField]
+    private SequenceNode[] nodes;
+    [HideInInspector]
     public List<Note> notes = new List<Note>();
+
+    public void UpdateSequence()
+    {
+        notes.Clear();
+        foreach (SequenceNode _node in nodes)
+        {
+            notes.Add(_node.note);
+            Debug.Log("added:" + _node.note.name);
+        }
+    }
 }

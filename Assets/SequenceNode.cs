@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Node : MonoBehaviour
+public class SequenceNode : MonoBehaviour
 {
     public Note note;
     public AudioSource audioSource;
     [SerializeField]
     private NoteSprites sprites;
     public Dictionary<string, Sprite> sprite = new Dictionary<string, Sprite>();
+
+
     void Start()
     {
         audioSource = gameObject.AddComponent<AudioSource>();
