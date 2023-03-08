@@ -2,21 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sequencer : MonoBehaviour
+[System.Serializable]
+public class Sequencer
 {
     [SerializeField]
-    private NoteSequence[] sequences;
+    public NoteSequence[] sequences;
     [SerializeField]
     private AudioSource source;
     [SerializeField]
     private float interval;
 
-    public void Play()
+    public void OnStart()
     {
         foreach (NoteSequence _noteSequence in sequences)
         {
             _noteSequence.UpdateSequence();
-            StartCoroutine(PlayTheSequence(_noteSequence));
         }
     }
 
@@ -32,6 +32,10 @@ public class Sequencer : MonoBehaviour
         }
     }
 
+    public void CreateTheSequence()
+    {
+       
+    }
 }
 
 [System.Serializable]
@@ -41,12 +45,14 @@ public class NoteSequence
     private SequenceNode[] nodes;
     [HideInInspector]
     public List<Note> notes = new List<Note>();
+    public Instrument sequenceInstrument;
 
     public void UpdateSequence()
     {
         notes.Clear();
         foreach (SequenceNode _node in nodes)
         {
+            _node.ChangeInstrument(sequenceInstrument);
             notes.Add(_node.note);
             Debug.Log("added:" + _node.note.name);
         }
