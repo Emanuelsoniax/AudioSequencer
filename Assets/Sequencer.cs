@@ -9,9 +9,11 @@ public class Sequencer
     public NoteSequence[] sequences;
     [SerializeField]
     private float interval;
-
-    public void OnStart()
+    public ApplicationManager manager;
+    public bool islooping;
+    public void OnStart(ApplicationManager _manager)
     {
+        manager = _manager;
         foreach (NoteSequence _noteSequence in sequences)
         {
             _noteSequence.UpdateSequence();
@@ -28,11 +30,14 @@ public class Sequencer
             _source.Stop();
             yield return new WaitForSecondsRealtime(interval);
         }
-    }
-
-    public void CreateTheSequence()
-    {
-       
+        if (islooping)
+        {
+            yield return PlayTheSequence(_sequence, _source);
+        }
+        else
+        {
+            yield return null;
+        }
     }
 }
 
@@ -55,4 +60,38 @@ public class NoteSequence
             Debug.Log("added:" + _node.note.name);
         }
     }
+
+    public void ApplySequenceToNode(List<NoteData> _notes)
+    {
+        for (int i = 0; i < _notes.Count; i++)
+        {
+            nodes[i].note = _notes[i];
+            nodes[i].note.SetValues();
+            nodes[i].ChangeSprite();
+        }
+    }
+
+    public SequenceData GetData()
+    {
+        SequenceData data = new SequenceData();
+
+        data.notes = notes;
+        data.sequenceInstrument = sequenceInstrument;
+
+        return data;
+    }
+
+    public void ApplyData(SequenceData data)
+    {
+        sequenceInstrument = data.sequenceInstrument;
+        notes = data.notes;
+
+        ApplySequenceToNode(notes);
+    }
+}
+
+public class SequenceData
+{
+    public List<NoteData> notes;
+    public InstrumentType sequenceInstrument;
 }
