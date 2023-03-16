@@ -1,0 +1,130 @@
+@startuml
+class Exporter {
+    + Export(applicationData:ApplicationData) : void
+}
+MonoBehaviour <|-- Exporter
+class SequenceNode {
+    Start() : void
+    + ClickButton() : void
+    + ChangeSprite() : void
+    + SetSprites() : void
+    + PlayClip() : IEnumerator
+    + ChangeInstrument(_instrument:InstrumentType) : void
+}
+enum NoteType {
+    none= 0,
+    A= 1,
+    B= 2,
+    C= 3,
+    D= 4,
+    E= 5,
+    F= 6,
+    G= 7,
+}
+enum InstrumentType {
+    Square,
+    Sawtooth,
+    Sine,
+    Noise,
+}
+class NoteData {
+    + name : string
+    + sampleRate : int
+    + frequency : float
+    + duration : float
+    + SetValues() : void
+    + ChangeNote() : void
+    + CreateClip(_name:string, _samplerate:int, _frequency:float) : AudioClip
+    + CreateData(_name:string, _samplerate:int, _frequency:float) : float[]
+    + CreateSine(_size:int, _samplerate:int, _frequency:float) : float[]
+    + CreateSquare(_size:int, _samplerate:int, _frequency:float) : float[]
+    + CreateSawtooth(_size:int, _samplerate:int, _frequency:float) : float[]
+    + CreateNoise(_size:int, _samplerate:int, _frequency:float) : float[]
+}
+class "Dictionary`2"<T1,T2> {
+}
+MonoBehaviour <|-- SequenceNode
+SequenceNode --> "note" NoteData
+SequenceNode --> "audioSource" AudioSource
+SequenceNode o-> "sprite<string,Sprite>" "Dictionary`2"
+NoteData --> "note" NoteType
+NoteData --> "instrument" InstrumentType
+class Sequencer {
+    + islooping : bool
+    + OnStart(_manager:ApplicationManager) : void
+    + PlayTheSequence(_sequence:NoteSequence, _source:AudioSource) : IEnumerator
+}
+class NoteSequence {
+    + UpdateSequence() : void
+    + ApplySequenceToNode(_notes:List<NoteData>) : void
+    + GetData() : SequenceData
+    + ApplyData(data:SequenceData) : void
+}
+class SequenceData {
+}
+class "List`1"<T> {
+}
+Sequencer --> "manager" ApplicationManager
+NoteSequence o-> "notes<NoteData>" "List`1"
+NoteSequence --> "sequenceInstrument" InstrumentType
+SequenceData --> "notes<NoteData>" "List`1"
+SequenceData --> "sequenceInstrument" InstrumentType
+class NoteSprites {
+}
+ScriptableObject <|-- NoteSprites
+NoteSprites --> "A" Sprite
+NoteSprites --> "B" Sprite
+NoteSprites --> "C" Sprite
+NoteSprites --> "D" Sprite
+NoteSprites --> "E" Sprite
+NoteSprites --> "F" Sprite
+NoteSprites --> "G" Sprite
+NoteSprites --> "none" Sprite
+class "SingletonScriptableObject`1"<T> {
+    + {static} Instance : T <<get>>
+}
+ScriptableObject <|-- "SingletonScriptableObject`1"
+class ApplicationManager {
+    + Start() : void
+    + Export() : void
+    + Save() : void
+    + Load() : void
+    + Play() : void
+    + Stop() : void
+    + Loop() : void
+    + CloseApplication() : void
+}
+class ApplicationData {
+    + ApplicationData()
+    + ApplicationData(sequenceA:SequenceData, sequenceB:SequenceData, sequenceC:SequenceData, sequenceD:SequenceData)
+}
+class "List`1"<T> {
+}
+MonoBehaviour <|-- ApplicationManager
+ApplicationData --> "sequences<SequenceData>" "List`1"
+class ExtensionFilter <<struct>> {
+    + Name : string
+    + ExtensionFilter(filterName:string, filterExtensions:string[])
+}
+class StandaloneFileBrowser {
+    {static} StandaloneFileBrowser()
+    + {static} OpenFilePanel(title:string, directory:string, extension:string, multiselect:bool) : string[]
+    + {static} OpenFilePanel(title:string, directory:string, extensions:ExtensionFilter[], multiselect:bool) : string[]
+    + {static} OpenFilePanelAsync(title:string, directory:string, extension:string, multiselect:bool, cb:Action<string[]>) : void
+    + {static} OpenFilePanelAsync(title:string, directory:string, extensions:ExtensionFilter[], multiselect:bool, cb:Action<string[]>) : void
+    + {static} OpenFolderPanel(title:string, directory:string, multiselect:bool) : string[]
+    + {static} OpenFolderPanelAsync(title:string, directory:string, multiselect:bool, cb:Action<string[]>) : void
+    + {static} SaveFilePanel(title:string, directory:string, defaultName:string, extension:string) : string
+    + {static} SaveFilePanel(title:string, directory:string, defaultName:string, extensions:ExtensionFilter[]) : string
+    + {static} SaveFilePanelAsync(title:string, directory:string, defaultName:string, extension:string, cb:Action<string>) : void
+    + {static} SaveFilePanelAsync(title:string, directory:string, defaultName:string, extensions:ExtensionFilter[], cb:Action<string>) : void
+}
+interface IStandaloneFileBrowser {
+    OpenFilePanel(title:string, directory:string, extensions:ExtensionFilter[], multiselect:bool) : string[]
+    OpenFolderPanel(title:string, directory:string, multiselect:bool) : string[]
+    SaveFilePanel(title:string, directory:string, defaultName:string, extensions:ExtensionFilter[]) : string
+    OpenFilePanelAsync(title:string, directory:string, extensions:ExtensionFilter[], multiselect:bool, cb:Action<string[]>) : void
+    OpenFolderPanelAsync(title:string, directory:string, multiselect:bool, cb:Action<string[]>) : void
+    SaveFilePanelAsync(title:string, directory:string, defaultName:string, extensions:ExtensionFilter[], cb:Action<string>) : void
+}
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+interface IStandaloneFileBrowser {
+    OpenFilePanel(title:string, directory:string, extensions:ExtensionFilter[], multiselect:bool) : string[]
+    OpenFolderPanel(title:string, directory:string, multiselect:bool) : string[]
+    SaveFilePanel(title:string, directory:string, defaultName:string, extensions:ExtensionFilter[]) : string
+    OpenFilePanelAsync(title:string, directory:string, extensions:ExtensionFilter[], multiselect:bool, cb:Action<string[]>) : void
+    OpenFolderPanelAsync(title:string, directory:string, multiselect:bool, cb:Action<string[]>) : void
+    SaveFilePanelAsync(title:string, directory:string, defaultName:string, extensions:ExtensionFilter[], cb:Action<string>) : void
+}
+@enduml
