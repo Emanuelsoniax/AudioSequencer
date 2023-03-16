@@ -1,0 +1,20 @@
+@startuml
+class ApplicationManager {
+    + Start() : void
+    + Export() : void
+    + Save() : void
+    + Load() : void
+    + Play() : void
+    + Stop() : void
+    + Loop() : void
+    + CloseApplication() : void
+}
+class ApplicationData {
+    + ApplicationData()
+    + ApplicationData(sequenceA:SequenceData, sequenceB:SequenceData, sequenceC:SequenceData, sequenceD:SequenceData)
+}
+class "List`1"<T> {
+}
+MonoBehaviour <|-- ApplicationManager
+ApplicationData --> "sequences<SequenceData>" "List`1"
+@enduml

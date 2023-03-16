@@ -1,0 +1,13 @@
+@startuml
+class NoteSprites {
+}
+ScriptableObject <|-- NoteSprites
+NoteSprites --> "A" Sprite
+NoteSprites --> "B" Sprite
+NoteSprites --> "C" Sprite
+NoteSprites --> "D" Sprite
+NoteSprites --> "E" Sprite
+NoteSprites --> "F" Sprite
+NoteSprites --> "G" Sprite
+NoteSprites --> "none" Sprite
+@enduml
