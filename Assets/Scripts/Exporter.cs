@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Exporter: MonoBehaviour
+public class Exporter
 {
     private ApplicationData data;
 
     public void Export(ApplicationData applicationData)
     {
         data = applicationData;
-        //SavWav.Save()
+        SavWav.Save("test", MergeToSingleClip());
     }
 
     private AudioClip MergeToSingleClip()

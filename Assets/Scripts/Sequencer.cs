@@ -57,7 +57,6 @@ public class NoteSequence
         {
             _node.ChangeInstrument(sequenceInstrument);
             notes.Add(_node.note);
-            Debug.Log("added:" + _node.note.name);
         }
     }
 

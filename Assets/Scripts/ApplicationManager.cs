@@ -80,6 +80,7 @@ public class ApplicationManager : MonoBehaviour
 
     public void Play()
     {
+        Stop();
         foreach (NoteSequence _noteSequence in sequencer.sequences)
         {
             _noteSequence.UpdateSequence();

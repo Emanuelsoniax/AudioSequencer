@@ -28,30 +28,35 @@ using System;
 using System.IO;
 using UnityEngine;
 using System.Collections.Generic;
+using SFB;
 
 public static class SavWav {
 
 	const int HEADER_SIZE = 44;
 
 
-	//Edited to fit earlier used formatting
+	//Edited source code
+	//Added opening the file explorer to choose where to save the file
 	public static bool Save(string filename, AudioClip clip) {
-		if (!filename.ToLower().EndsWith(".wav")) {
-			filename += ".wav";
+		// Save file with filter
+		var extensionList = new[] {
+		new ExtensionFilter("WAV", "wav"),
+		};
+		var path = StandaloneFileBrowser.SaveFilePanel("Save File", "", "MySaveFile", extensionList);
+
+		if (path == null)
+		{
+			Debug.Log("empty");
+			return false;
 		}
 
-		var filepath = Path.Combine(Application.persistentDataPath, filename);
+		FileStream stream = new FileStream(path, FileMode.Create);
+		using (stream)
+		{
 
-		Debug.Log(filepath);
+			ConvertAndWrite(stream, clip);
 
-		// Make sure directory exists if user is saving to sub dir.
-		Directory.CreateDirectory(Path.GetDirectoryName(filepath));
-
-		using (var fileStream = CreateEmpty(filepath)) {
-
-			ConvertAndWrite(fileStream, clip);
-
-			WriteHeader(fileStream, clip);
+			WriteHeader(stream, clip);
 		}
 
 		return true; // TODO: return false if there's a failure saving the file
