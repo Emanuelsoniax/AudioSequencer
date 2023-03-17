@@ -2,7 +2,6 @@
 class Exporter {
     + Export(applicationData:ApplicationData) : void
 }
-MonoBehaviour <|-- Exporter
 class SequenceNode {
     Start() : void
     + ClickButton() : void
@@ -35,7 +34,6 @@ class NoteData {
     + SetValues() : void
     + ChangeNote() : void
     + CreateClip(_name:string, _samplerate:int, _frequency:float) : AudioClip
-    + CreateData(_name:string, _samplerate:int, _frequency:float) : float[]
     + CreateSine(_size:int, _samplerate:int, _frequency:float) : float[]
     + CreateSquare(_size:int, _samplerate:int, _frequency:float) : float[]
     + CreateSawtooth(_size:int, _samplerate:int, _frequency:float) : float[]
@@ -80,10 +78,16 @@ NoteSprites --> "E" Sprite
 NoteSprites --> "F" Sprite
 NoteSprites --> "G" Sprite
 NoteSprites --> "none" Sprite
-class "SingletonScriptableObject`1"<T> {
-    + {static} Instance : T <<get>>
+class SavWav <<static>> {
+    <<const>> HEADER_SIZE : int = 44
+    + {static} Save(filename:string, clip:AudioClip) : bool
+    + {static} TrimSilence(clip:AudioClip, min:float) : AudioClip
+    + {static} TrimSilence(samples:List<float>, min:float, channels:int, hz:int) : AudioClip
+    + {static} TrimSilence(samples:List<float>, min:float, channels:int, hz:int, _3D:bool, stream:bool) : AudioClip
+    {static} CreateEmpty(filepath:string) : FileStream
+    {static} ConvertAndWrite(fileStream:FileStream, clip:AudioClip) : void
+    {static} WriteHeader(fileStream:FileStream, clip:AudioClip) : void
 }
-ScriptableObject <|-- "SingletonScriptableObject`1"
 class ApplicationManager {
     + Start() : void
     + Export() : void
