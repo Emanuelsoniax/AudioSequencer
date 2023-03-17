@@ -19,7 +19,8 @@ public class ApplicationManager : MonoBehaviour
 
     public void Export()
     {
-        exporter.Export(new ApplicationData(sequencer.sequences[0].GetData(), sequencer.sequences[1].GetData(), sequencer.sequences[2].GetData(), sequencer.sequences[3].GetData()));
+        ApplicationData data = new ApplicationData(sequencer.sequences[0].GetData(), sequencer.sequences[1].GetData(), sequencer.sequences[2].GetData(), sequencer.sequences[3].GetData());
+        exporter.Export(data);
     }
 
     public void Save()

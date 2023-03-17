@@ -132,7 +132,7 @@ public class NoteData
 
     public AudioClip CreateClip(string _name, int _samplerate, float _frequency)
     {
-        AudioClip clip = AudioClip.Create(_name, _samplerate, 1, _samplerate, false);
+        AudioClip clip = AudioClip.Create(_name,(int)(duration * _samplerate), 1, _samplerate, false);
 
         var size = clip.frequency * (int)Mathf.Ceil(clip.length);
 
@@ -142,23 +142,6 @@ public class NoteData
         if(instrument == InstrumentType.Noise) clip.SetData(CreateNoise(size, _samplerate, _frequency), 0);
 
         return clip;
-    }
-
-    public float[] CreateData(string _name, int _samplerate, float _frequency)
-    {
-        AudioClip clip = AudioClip.Create(_name, _samplerate, 1, _samplerate, false);
-
-        var size = clip.frequency * (int)Mathf.Ceil(clip.length);
-
-        float[] data;
-
-        if (instrument == InstrumentType.Sawtooth) data = CreateSawtooth(size, _samplerate, _frequency);
-        if (instrument == InstrumentType.Square) data = CreateSquare(size, _samplerate, _frequency);
-        if (instrument == InstrumentType.Sine)  data = CreateSine(size, _samplerate, _frequency);
-        if (instrument == InstrumentType.Noise) data = CreateNoise(size, _samplerate, _frequency);
-        else { return null; }
-
-        return data;
     }
 
     public float[] CreateSine(int _size, int _samplerate, float _frequency)
