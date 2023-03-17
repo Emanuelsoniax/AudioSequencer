@@ -2,5 +2,4 @@
 class Exporter {
     + Export(applicationData:ApplicationData) : void
 }
-MonoBehaviour <|-- Exporter
 @enduml

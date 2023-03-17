@@ -31,7 +31,6 @@ class NoteData {
     + SetValues() : void
     + ChangeNote() : void
     + CreateClip(_name:string, _samplerate:int, _frequency:float) : AudioClip
-    + CreateData(_name:string, _samplerate:int, _frequency:float) : float[]
     + CreateSine(_size:int, _samplerate:int, _frequency:float) : float[]
     + CreateSquare(_size:int, _samplerate:int, _frequency:float) : float[]
     + CreateSawtooth(_size:int, _samplerate:int, _frequency:float) : float[]
