@@ -17,6 +17,11 @@ public class ApplicationManager : MonoBehaviour
         sequencer.OnStart(this);
     }
 
+    private void InitializeWindowSettings()
+    {
+       
+    }
+
     public void Export()
     {
         ApplicationData data = new ApplicationData(sequencer.sequences[0].GetData(), sequencer.sequences[1].GetData(), sequencer.sequences[2].GetData(), sequencer.sequences[3].GetData());
