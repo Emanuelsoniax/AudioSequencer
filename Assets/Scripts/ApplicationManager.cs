@@ -15,11 +15,12 @@ public class ApplicationManager : MonoBehaviour
     public void Start()
     {
         sequencer.OnStart(this);
+        InitializeWindowSettings();
     }
 
     private void InitializeWindowSettings()
     {
-       
+        BorderlessWindow.SetFramelessWindow();
     }
 
     public void Export()
