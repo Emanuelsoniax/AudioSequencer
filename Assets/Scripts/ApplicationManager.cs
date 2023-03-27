@@ -11,6 +11,10 @@ public class ApplicationManager : MonoBehaviour
     [SerializeField]
     private Sequencer sequencer;
     private Exporter exporter = new Exporter();
+    [SerializeField]
+    public InstrumentSprites instrumentSprites;
+    public GameObject sequenceBar;
+    public RectTransform[] barPositions;
 
     public void Start()
     {
@@ -81,8 +85,20 @@ public class ApplicationManager : MonoBehaviour
         }
     }
     
+    public void ChangeInstrument(int sequenceIndex)
+    {
+        sequencer.sequences[sequenceIndex].ChangeInstrument();
+    }
 
+    public void MinNoteDuration() {
+        sequencer.NoteDuration-= 0.01f;
+    }
 
+    public void PlusNoteDuration()
+    {
+        sequencer.NoteDuration += 0.01f;
+
+    }
 
     public void Play()
     {
@@ -98,6 +114,7 @@ public class ApplicationManager : MonoBehaviour
     {
         StopAllCoroutines();
         GetComponent<AudioSource>().Stop();
+        sequenceBar.SetActive(false);
     }
 
     public void Loop()

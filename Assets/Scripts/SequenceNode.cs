@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = System.Random;
 
 public class SequenceNode : MonoBehaviour
 {
@@ -28,6 +29,13 @@ public class SequenceNode : MonoBehaviour
         ChangeSprite();
         StartCoroutine(PlayClip());
     }
+
+    public void ClickBack()
+    {
+        note.ClearNote();
+        ChangeSprite();
+    }
+
 
     public void ChangeSprite()
     {
@@ -56,7 +64,7 @@ public class SequenceNode : MonoBehaviour
         audioSource.Stop();
     }
 
-    public void ChangeInstrument(InstrumentType _instrument)
+    public void UpdateInstrument(InstrumentType _instrument)
     {
         note.instrument = _instrument;
     }
@@ -129,17 +137,23 @@ public class NoteData
         SetValues();
     }
 
+    public void ClearNote()
+    {
+        note = NoteType.none;
+        SetValues();
+    }
+
 
     public AudioClip CreateClip(string _name, int _samplerate, float _frequency)
     {
-        AudioClip clip = AudioClip.Create(_name,(int)(duration * _samplerate), 1, _samplerate, false);
+        AudioClip clip = AudioClip.Create(_name, (int)(duration * _samplerate), 1, _samplerate, false);
 
         var size = clip.frequency * (int)Mathf.Ceil(clip.length);
 
-        if(instrument == InstrumentType.Sawtooth) clip.SetData(CreateSawtooth(size, _samplerate, _frequency), 0);
-        if(instrument == InstrumentType.Square) clip.SetData(CreateSquare(size, _samplerate, _frequency), 0);
-        if(instrument == InstrumentType.Sine) clip.SetData(CreateSine(size, _samplerate, _frequency), 0);
-        if(instrument == InstrumentType.Noise) clip.SetData(CreateNoise(size, _samplerate, _frequency), 0);
+        if (instrument == InstrumentType.Sawtooth) clip.SetData(CreateSawtooth(size, _samplerate, _frequency), 0);
+        if (instrument == InstrumentType.Square) clip.SetData(CreateSquare(size, _samplerate, _frequency), 0);
+        if (instrument == InstrumentType.Sine) clip.SetData(CreateSine(size, _samplerate, _frequency), 0);
+        if (instrument == InstrumentType.Noise) clip.SetData(CreateNoise(size, _samplerate, _frequency), 0);
 
         return clip;
     }
@@ -175,8 +189,8 @@ public class NoteData
 
         for (int i = 0; i < _size; ++i)
         {
-            float lam = (float)i / (float)_samplerate * _frequency %1f;
-            data[i] = lam > 0.5f ? 0.75f: -0.75f;
+            float lam = (float)i / (float)_samplerate * _frequency % 1f;
+            data[i] = lam > 0.5f ? 0.75f : -0.75f;
         }
 
         return data;
@@ -204,6 +218,7 @@ public class NoteData
     public float[] CreateNoise(int _size, int _samplerate, float _frequency)
     {
         float[] data = new float[_size];
+        Random rand = new Random();
 
         //if frequency is 0 return empty note
         if (_frequency == 0)
@@ -211,12 +226,15 @@ public class NoteData
             return data;
         }
 
-        for (int i = 0; i < _size; ++i)
+        // looping through each sample group
+        for (int i = 0; i < data.Length; i += 1)
         {
-            float lam = (float)i / (float)50000 * _frequency % 1f;
-            data[i] = (lam < 0.5f) ?
-                    (lam * 4 - 1) * 0.75f :
-                    (3.0f + lam * -4) * 0.75f;
+            // looping through sample of each channel in sample group
+            for (int j = 0; j < 1; j++)
+            {
+                // keeping float value in range of (-1,1)
+                data[i + j] = (float)(rand.NextDouble() * 2 - 1);
+            }
         }
         return data;
     }
