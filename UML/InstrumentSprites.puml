@@ -1,0 +1,9 @@
+@startuml
+class InstrumentSprites {
+}
+ScriptableObject <|-- InstrumentSprites
+InstrumentSprites --> "squareSprite" Sprite
+InstrumentSprites --> "sawtoothSprite" Sprite
+InstrumentSprites --> "sineSprite" Sprite
+InstrumentSprites --> "noiseSprite" Sprite
+@enduml

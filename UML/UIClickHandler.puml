@@ -1,0 +1,10 @@
+@startuml
+class UIClickHandler {
+    + OnPointerClick(eventData:PointerEventData) : void
+}
+MonoBehaviour <|-- UIClickHandler
+IPointerClickHandler <|-- UIClickHandler
+UIClickHandler --> "onLeftClick" UnityEvent
+UIClickHandler --> "onRightClick" UnityEvent
+UIClickHandler --> "onMiddleClick" UnityEvent
+@enduml

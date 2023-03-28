@@ -4,6 +4,9 @@ class ApplicationManager {
     + Export() : void
     + Save() : void
     + Load() : void
+    + ChangeInstrument(sequenceIndex:int) : void
+    + MinNoteDuration() : void
+    + PlusNoteDuration() : void
     + Play() : void
     + Stop() : void
     + Loop() : void
@@ -16,5 +19,7 @@ class ApplicationData {
 class "List`1"<T> {
 }
 MonoBehaviour <|-- ApplicationManager
+ApplicationManager --> "instrumentSprites" InstrumentSprites
+ApplicationManager --> "sequenceBar" GameObject
 ApplicationData --> "sequences<SequenceData>" "List`1"
 @enduml

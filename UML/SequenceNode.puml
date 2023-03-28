@@ -2,10 +2,11 @@
 class SequenceNode {
     Start() : void
     + ClickButton() : void
+    + ClickBack() : void
     + ChangeSprite() : void
     + SetSprites() : void
     + PlayClip() : IEnumerator
-    + ChangeInstrument(_instrument:InstrumentType) : void
+    + UpdateInstrument(_instrument:InstrumentType) : void
 }
 enum NoteType {
     none= 0,
@@ -30,6 +31,7 @@ class NoteData {
     + duration : float
     + SetValues() : void
     + ChangeNote() : void
+    + ClearNote() : void
     + CreateClip(_name:string, _samplerate:int, _frequency:float) : AudioClip
     + CreateSine(_size:int, _samplerate:int, _frequency:float) : float[]
     + CreateSquare(_size:int, _samplerate:int, _frequency:float) : float[]

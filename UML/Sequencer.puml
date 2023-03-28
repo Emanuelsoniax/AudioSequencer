@@ -1,11 +1,16 @@
 @startuml
 class Sequencer {
     + islooping : bool
+    + NoteDuration : float <<get>> <<set>>
     + OnStart(_manager:ApplicationManager) : void
+    + UpdateText() : void
     + PlayTheSequence(_sequence:NoteSequence, _source:AudioSource) : IEnumerator
 }
 class NoteSequence {
     + UpdateSequence() : void
+    + UpdateNoteDuration(_duration:float) : void
+    + SetSprites(sprites:InstrumentSprites) : void
+    + ChangeInstrument() : void
     + ApplySequenceToNode(_notes:List<NoteData>) : void
     + GetData() : SequenceData
     + ApplyData(data:SequenceData) : void
@@ -15,6 +20,7 @@ class SequenceData {
 class "List`1"<T> {
 }
 Sequencer --> "manager" ApplicationManager
+Sequencer --> "noteDurationText" TextMeshProUGUI
 NoteSequence o-> "notes<NoteData>" "List`1"
 NoteSequence --> "sequenceInstrument" InstrumentType
 SequenceData --> "notes<NoteData>" "List`1"

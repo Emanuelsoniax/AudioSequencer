@@ -5,10 +5,11 @@ class Exporter {
 class SequenceNode {
     Start() : void
     + ClickButton() : void
+    + ClickBack() : void
     + ChangeSprite() : void
     + SetSprites() : void
     + PlayClip() : IEnumerator
-    + ChangeInstrument(_instrument:InstrumentType) : void
+    + UpdateInstrument(_instrument:InstrumentType) : void
 }
 enum NoteType {
     none= 0,
@@ -33,6 +34,7 @@ class NoteData {
     + duration : float
     + SetValues() : void
     + ChangeNote() : void
+    + ClearNote() : void
     + CreateClip(_name:string, _samplerate:int, _frequency:float) : AudioClip
     + CreateSine(_size:int, _samplerate:int, _frequency:float) : float[]
     + CreateSquare(_size:int, _samplerate:int, _frequency:float) : float[]
@@ -47,13 +49,26 @@ SequenceNode --> "audioSource" AudioSource
 SequenceNode o-> "sprite<string,Sprite>" "Dictionary`2"
 NoteData --> "note" NoteType
 NoteData --> "instrument" InstrumentType
+class UIClickHandler {
+    + OnPointerClick(eventData:PointerEventData) : void
+}
+MonoBehaviour <|-- UIClickHandler
+IPointerClickHandler <|-- UIClickHandler
+UIClickHandler --> "onLeftClick" UnityEvent
+UIClickHandler --> "onRightClick" UnityEvent
+UIClickHandler --> "onMiddleClick" UnityEvent
 class Sequencer {
     + islooping : bool
+    + NoteDuration : float <<get>> <<set>>
     + OnStart(_manager:ApplicationManager) : void
+    + UpdateText() : void
     + PlayTheSequence(_sequence:NoteSequence, _source:AudioSource) : IEnumerator
 }
 class NoteSequence {
     + UpdateSequence() : void
+    + UpdateNoteDuration(_duration:float) : void
+    + SetSprites(sprites:InstrumentSprites) : void
+    + ChangeInstrument() : void
     + ApplySequenceToNode(_notes:List<NoteData>) : void
     + GetData() : SequenceData
     + ApplyData(data:SequenceData) : void
@@ -63,6 +78,7 @@ class SequenceData {
 class "List`1"<T> {
 }
 Sequencer --> "manager" ApplicationManager
+Sequencer --> "noteDurationText" TextMeshProUGUI
 NoteSequence o-> "notes<NoteData>" "List`1"
 NoteSequence --> "sequenceInstrument" InstrumentType
 SequenceData --> "notes<NoteData>" "List`1"
@@ -78,6 +94,13 @@ NoteSprites --> "E" Sprite
 NoteSprites --> "F" Sprite
 NoteSprites --> "G" Sprite
 NoteSprites --> "none" Sprite
+class InstrumentSprites {
+}
+ScriptableObject <|-- InstrumentSprites
+InstrumentSprites --> "squareSprite" Sprite
+InstrumentSprites --> "sawtoothSprite" Sprite
+InstrumentSprites --> "sineSprite" Sprite
+InstrumentSprites --> "noiseSprite" Sprite
 class SavWav <<static>> {
     <<const>> HEADER_SIZE : int = 44
     + {static} Save(filename:string, clip:AudioClip) : bool
@@ -93,6 +116,9 @@ class ApplicationManager {
     + Export() : void
     + Save() : void
     + Load() : void
+    + ChangeInstrument(sequenceIndex:int) : void
+    + MinNoteDuration() : void
+    + PlusNoteDuration() : void
     + Play() : void
     + Stop() : void
     + Loop() : void
@@ -105,5 +131,7 @@ class ApplicationData {
 class "List`1"<T> {
 }
 MonoBehaviour <|-- ApplicationManager
+ApplicationManager --> "instrumentSprites" InstrumentSprites
+ApplicationManager --> "sequenceBar" GameObject
 ApplicationData --> "sequences<SequenceData>" "List`1"
 @enduml
